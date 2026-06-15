@@ -1,0 +1,53 @@
+import type { TryOnConfig } from "../types/tryOn";
+
+export const MEN_TRYON_CONFIG: TryOnConfig = {
+  id: "men",
+  pageTitle: "2D Shalwar Kameez Try On",
+  pageTagline: "Men's kurta & kameez virtual try-on",
+  personStepTitle: "Select Model",
+  garmentStepTitle: "Select Garment",
+  personPhotoHint: "Full-body or upper-body photo · front view · JPG / PNG",
+  personUploadLabel: "Upload your photo",
+  garmentUploadLabel: "Upload full dress image",
+  garmentUploadHint: "Full shalwar kameez / kurta · flat lay or mannequin",
+  customGarmentBadge: "Your kurta",
+  galleryHint: "Upload your own kurta or pick from the gallery",
+  galleryScrollHint: "Gallery kurtas ↓",
+  previewPlaceholder: "Upload or pick a kurta above",
+  progressFittingText: "Fitting shalwar kameez on your photo (AI may take 2–5 min)…",
+  outputEmptyText: "Your kurta try-on result will appear here",
+  downloadPrefix: "kurta-tryon",
+  garmentPrompt:
+    "Pakistani full length shalwar kameez, complete kurta dress with shalwar, traditional festive outfit, full dress not cropped",
+  gallery: "men",
+  showFindTailor: true,
+  emptyGalleryMessage: "No kurta images found. Run npm run sync:garments.",
+  selectErrorMessage: "Upload your photo and pick or upload a kurta, then click Run Try-On.",
+  uploadOnlyGallery: false,
+};
+
+export const LADIES_TRYON_CONFIG: TryOnConfig = {
+  id: "ladies",
+  pageTitle: "Ladies Kurti & Kameez",
+  pageTagline: "Virtual try-on for women's traditional wear",
+  personStepTitle: "Select Model",
+  garmentStepTitle: "Select Garment",
+  personPhotoHint: "Full-body photo works best for full dress try-on · JPG / PNG / WebP",
+  personUploadLabel: "Upload Photo",
+  garmentUploadLabel: "Upload full dress / kameez",
+  garmentUploadHint: "Full outfit photo — catalog, flat lay, or mannequin",
+  customGarmentBadge: "Your outfit",
+  galleryHint: "Pick from a collection above, or upload your own kurti/kameez photo",
+  galleryScrollHint: "More from this folder ↓",
+  previewPlaceholder: "Pick an outfit from collections or upload below",
+  progressFittingText: "Fitting your kurti/kameez on your photo (AI may take 2–5 min)…",
+  outputEmptyText: "Your ladies try-on result will appear here",
+  downloadPrefix: "ladies-tryon",
+  garmentPrompt:
+    "Pakistani ladies full length shalwar kameez, complete kurti dress outfit, traditional modest festive wear, full dress not cropped",
+  gallery: "ladies",
+  showFindTailor: false,
+  emptyGalleryMessage: "No ladies collections found. Run npm run sync:ladies-catalog.",
+  selectErrorMessage: "Upload your photo and pick or upload a kurti/kameez, then click Run Try-On.",
+  uploadOnlyGallery: false,
+};

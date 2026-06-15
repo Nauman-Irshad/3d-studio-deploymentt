@@ -1,0 +1,33 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "headers": [
+    {
+      "source": "/((?!studio(?:/|$)|garment-3d(?:/|$)|phone-capture(?:/|$)).*)",
+      "headers": [
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
+        { "key": "Cross-Origin-Embedder-Policy", "value": "credentialless" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/phone-capture", "destination": "/phone-capture/index.html" },
+    { "source": "/phone-capture/", "destination": "/phone-capture/index.html" },
+    { "source": "/capture/:path*", "destination": "/index.html" },
+    { "source": "/ladies_try_on", "destination": "/ladies_try_on/index.html" },
+    { "source": "/ladies_try_on/", "destination": "/ladies_try_on/index.html" },
+    { "source": "/studio", "destination": "/studio/index.html" },
+    { "source": "/studio/", "destination": "/studio/index.html" },
+    { "source": "/((?!api/|assets/|garments/|garment-3d/|phone-capture/|ladies-garments/|ladies-catalog/|ladies_try_on/).*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/tryon.py": {
+      "maxDuration": 300
+    },
+    "api/tryon/health.py": {
+      "maxDuration": 10
+    }
+  }
+}

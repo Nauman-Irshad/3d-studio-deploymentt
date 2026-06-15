@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta http-equiv="Permissions-Policy" content="camera=(self)" />
+  <title>Smart Fitao · Phone photo</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background: #000;
+      color: #fff;
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      touch-action: manipulation;
+    }
+    #wrap {
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+    }
+    /* Full-screen camera shell */
+    #camera {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: #000;
+      overflow: hidden;
+    }
+    #camera[hidden] { display: none !important; }
+    .stage {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    video, .preview {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+    video.mirror {
+      transform: translate(-50%, -50%) scaleX(-1);
+    }
+    .hint {
+      position: absolute;
+      top: calc(max(12px, env(safe-area-inset-top)) + 78px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      max-width: 92%;
+      text-align: center;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 8;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.35) 65%, transparent 100%);
+      border: none;
+    }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .primary {
+      background: #059669;
+      color: #fff;
+      min-width: 180px;
+      box-shadow: 0 4px 20px rgba(5,150,105,.45);
+    }
+    .primary.capture-ready {
+      min-width: 72px;
+      min-height: 72px;
+      width: 72px;
+      height: 72px;
+      padding: 0;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      background: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 3px rgba(5,150,105,.9);
+    }
+    .primary:disabled { opacity: .45; cursor: not-allowed; }
+    .ghost {
+      background: rgba(255,255,255,.18);
+      color: #fff;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .err, .ok {
+      position: absolute;
+      bottom: calc(100px + env(safe-area-inset-bottom));
+      left: 16px;
+      right: 16px;
+      z-index: 6;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: center;
+    }
+    .err { background: rgba(220,38,38,.92); }
+    .ok { background: rgba(5,150,105,.92); }
+    .loading {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(0,0,0,.55);
+      z-index: 4;
+      font-weight: 600;
+    }
+    .landing {
+      min-height: 100dvh;
+      padding: 32px 20px;
+      padding-top: max(32px, env(safe-area-inset-top));
+      text-align: center;
+      max-width: 420px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .landing h1 { font-size: 1.35rem; margin: 0 0 12px; }
+    .landing p { color: #aaa; line-height: 1.55; font-size: 15px; }
+    .brand-bar {
+      position: absolute;
+      top: max(10px, env(safe-area-inset-top));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      width: min(92%, 320px);
+      pointer-events: none;
+    }
+    .brand-bar img {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 18px rgba(0,0,0,.35);
+    }
+    .brand-bar .scan-title {
+      margin: 0;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .landing-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      object-fit: cover;
+      margin: 0 auto 14px;
+      display: block;
+      box-shadow: 0 6px 24px rgba(5,150,105,.25);
+    }
+    .logo { color: #059669; font-weight: 800; letter-spacing: .04em; font-size: 13px; }
+    .ios-help {
+      position: absolute;
+      left: 50%;
+      bottom: calc(max(100px, env(safe-area-inset-bottom)) + 72px);
+      transform: translateX(-50%);
+      z-index: 6;
+      width: min(92%, 340px);
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-size: 13px;
+      line-height: 1.45;
+      text-align: left;
+    }
+    .ios-help strong { color: #6ee7b7; }
+    .ios-help ol { margin: 8px 0 0; padding-left: 1.15rem; }
+    .ios-help li { margin: 4px 0; }
+    .perm-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 22px calc(28px + env(safe-area-inset-bottom));
+      padding-top: calc(28px + env(safe-area-inset-top));
+      background: linear-gradient(165deg, #0f172a 0%, #000 45%, #052e1f 100%);
+      text-align: center;
+    }
+    .perm-gate[hidden] { display: none !important; }
+    .perm-gate-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      object-fit: cover;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 28px rgba(5,150,105,.35);
+    }
+    .perm-gate h1 {
+      margin: 0 0 10px;
+      font-size: 1.45rem;
+      font-weight: 800;
+    }
+    .perm-gate p {
+      margin: 0 0 12px;
+      color: #cbd5e1;
+      font-size: 15px;
+      line-height: 1.55;
+      max-width: 340px;
+    }
+    .perm-gate .perm-popup-note {
+      margin: 16px 0 22px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(5,150,105,.2);
+      border: 1px solid rgba(110,231,183,.35);
+      color: #ecfdf5;
+      font-size: 14px;
+      font-weight: 600;
+      max-width: 340px;
+    }
+    .perm-gate .perm-popup-note strong { color: #6ee7b7; }
+    .allow-btn {
+      min-width: min(100%, 300px);
+      padding: 18px 28px;
+      font-size: 17px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .allow-btn svg { flex-shrink: 0; }
+    .perm-err {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(220,38,38,.9);
+      font-size: 14px;
+      max-width: 340px;
+      line-height: 1.45;
+    }
+    .perm-settings {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #94a3b8;
+      max-width: 340px;
+      line-height: 1.5;
+    }
+    .phone-success-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      background: linear-gradient(165deg, #052e1f 0%, #000 50%, #0f172a 100%);
+      text-align: center;
+    }
+    .phone-success-screen[hidden] { display: none !important; }
+    .phone-success-tick {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: #059669;
+      color: #fff;
+      font-size: 2.75rem;
+      font-weight: 800;
+      line-height: 88px;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 8px 32px rgba(5,150,105,.45);
+      animation: phone-pop 0.45s ease;
+    }
+    .phone-success-screen h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.35rem;
+    }
+    .phone-success-screen p {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 15px;
+      line-height: 1.5;
+      max-width: 300px;
+    }
+    @keyframes phone-pop {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .sync-panel {
+      margin: 18px auto 0;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.45);
+      border: 1px solid rgba(255,255,255,.12);
+      max-width: 340px;
+      width: 100%;
+      text-align: left;
+    }
+    .sync-panel-title {
+      margin: 0 0 8px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .sync-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .sync-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 4px 0;
+      color: #e2e8f0;
+    }
+    .sync-list code {
+      font-size: 11px;
+      word-break: break-all;
+      color: #6ee7b7;
+    }
+    .sync-dot {
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 5px;
+      background: #64748b;
+    }
+    .sync-dot.ok { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,.6); }
+    .sync-dot.bad { background: #ef4444; }
+    .sync-dot.wait { background: #f59e0b; animation: sync-pulse 1.2s ease infinite; }
+    @keyframes sync-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .35; }
+    }
+    .sync-panel.camera-panel {
+      position: absolute;
+      top: calc(max(10px, env(safe-area-inset-top)) + 64px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 7;
+      margin: 0;
+      width: min(92%, 340px);
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .phone-success-status {
+      margin-top: 1.25rem;
+      width: 100%;
+      max-width: 320px;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <div id="landing" class="landing" hidden>
+      <img src="smartfitao-logo.png" alt="SmartFitao AI" class="landing-logo" />
+      <p class="logo">SMART FITAO AI</p>
+      <h1>Scan QR code</h1>
+      <p>
+        On your computer, open <strong>2D Try-On</strong> and tap <strong>Scan QR code</strong>.
+        Scan that QR with your phone — this page opens so you can take a full-body shalwar kameez photo.
+      </p>
+    </div>
+    <div id="permGate" class="perm-gate" hidden>
+      <img src="smartfitao-logo.png" alt="" class="perm-gate-logo" />
+      <p class="logo">SMART FITAO AI</p>
+      <h1>Allow camera access</h1>
+      <p>We need your camera to take a full-body shalwar kameez photo for virtual try-on on your computer.</p>
+      <p class="perm-popup-note" id="permPopupNote">
+        After you tap the button below, <strong>Safari will show a popup</strong> — tap <strong>Allow</strong>.
+      </p>
+      <button type="button" class="primary allow-btn" id="allowBtn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+        Allow camera access
+      </button>
+      <div id="permErr" class="perm-err" hidden></div>
+      <p class="perm-settings" id="permSettings" hidden></p>
+      <div id="syncPanelGate" class="sync-panel" hidden>
+        <p class="sync-panel-title">Connection status</p>
+        <ul class="sync-list">
+          <li id="stFirebaseGate"><span class="sync-dot wait"></span><span>Firebase: checking…</span></li>
+          <li id="stSessionGate"><span class="sync-dot ok"></span><span>Session: <code id="stSessionCodeGate"></code></span></li>
+        </ul>
+      </div>
+    </div>
+    <div id="camera" hidden>
+      <div class="stage">
+        <div class="brand-bar">
+          <img src="smartfitao-logo.png" alt="SmartFitao AI" />
+          <p class="scan-title">Take your photo</p>
+        </div>
+        <video id="video" playsinline muted autoplay></video>
+        <img id="preview" class="preview" alt="" hidden />
+        <div class="hint" id="hint">Full body in frame · tap the circle to capture</div>
+        <div id="loading" class="loading" hidden>Opening camera…</div>
+        <div id="err" class="err" hidden></div>
+        <div id="ok" class="ok" hidden></div>
+        <div id="syncPanelCam" class="sync-panel camera-panel" hidden>
+          <p class="sync-panel-title">Status</p>
+          <ul class="sync-list">
+            <li id="stFirebaseCam"><span class="sync-dot wait"></span><span>Firebase: …</span></li>
+            <li id="stSessionCam"><span class="sync-dot ok"></span><span>Session: <code id="stSessionCodeCam"></code></span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bar">
+        <button type="button" class="ghost" id="retakeBtn" hidden>Retake</button>
+        <button type="button" class="primary capture-ready" id="actionBtn" aria-label="Capture photo"></button>
+      </div>
+    </div>
+    <div id="successScreen" class="phone-success-screen" hidden>
+      <div class="phone-success-tick" aria-hidden="true">✓</div>
+      <h2>Photo sent successfully!</h2>
+      <p id="successSub">Go back to your computer — your photo will load in Select Model automatically.</p>
+      <div id="syncPanelSuccess" class="sync-panel phone-success-status">
+        <p class="sync-panel-title">Delivery status</p>
+        <ul class="sync-list">
+          <li id="stFirebaseOk"><span class="sync-dot wait"></span><span>Firebase: …</span></li>
+          <li id="stUploadOk"><span class="sync-dot wait"></span><span>Upload: …</span></li>
+          <li id="stDashboardOk"><span class="sync-dot wait"></span><span>Computer: waiting…</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <canvas id="canvas" hidden></canvas>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var phoneSession = params.get('phone_session') || params.get('session') || '';
+      var FIREBASE_PROJECT = 'smart-fitao-web-app';
+      var FIREBASE_API_KEY = 'AIzaSyBjYPdRnwuRSAfTZDZ9fkS-f7hDQccOjOY';
+      var firebaseStatus = 'checking';
+      var desktopPollTimer = null;
+
+      var landing = document.getElementById('landing');
+      var permGate = document.getElementById('permGate');
+      var allowBtn = document.getElementById('allowBtn');
+      var permErr = document.getElementById('permErr');
+      var permSettings = document.getElementById('permSettings');
+      var camera = document.getElementById('camera');
+      var video = document.getElementById('video');
+      var preview = document.getElementById('preview');
+      var canvas = document.getElementById('canvas');
+      var actionBtn = document.getElementById('actionBtn');
+      var retakeBtn = document.getElementById('retakeBtn');
+      var loading = document.getElementById('loading');
+      var errEl = document.getElementById('err');
+      var okEl = document.getElementById('ok');
+      var hint = document.getElementById('hint');
+
+      var stream = null;
+      var capturedDataUrl = null;
+      var busy = false;
+      var cameraReady = false;
+      var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      function setSyncLine(rowEl, state, text) {
+        if (!rowEl) return;
+        var dot = rowEl.querySelector('.sync-dot');
+        if (dot) {
+          dot.classList.remove('ok', 'bad', 'wait');
+          dot.classList.add(state === 'ok' ? 'ok' : state === 'bad' ? 'bad' : 'wait');
+        }
+        var label = rowEl.querySelector('span:last-child');
+        if (label) label.textContent = text;
+      }
+
+      function firestoreDocUrl(sessionId) {
+        return 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT +
+          '/databases/(default)/documents/phone_tryon_sync/' + encodeURIComponent(sessionId) +
+          '?key=' + FIREBASE_API_KEY;
+      }
+
+      async function checkFirebaseConnection() {
+        try {
+          var res = await fetch(firestoreDocUrl('_connect_probe_' + phoneSession.slice(0, 8)));
+          if (res.status === 404 || res.ok) {
+            firebaseStatus = 'ok';
+            return 'ok';
+          }
+          if (res.status === 403) {
+            firebaseStatus = 'bad';
+            return 'bad';
+          }
+          firebaseStatus = 'bad';
+          return 'bad';
+        } catch (e) {
+          firebaseStatus = 'bad';
+          return 'offline';
+        }
+      }
+
+      function applyFirebaseStatusToUi() {
+        var label = firebaseStatus === 'ok'
+          ? 'Firebase: connected'
+          : firebaseStatus === 'offline'
+            ? 'Firebase: no internet'
+            : 'Firebase: blocked (fix rules)';
+        var state = firebaseStatus === 'ok' ? 'ok' : 'bad';
+        setSyncLine(document.getElementById('stFirebaseGate'), state, label);
+        setSyncLine(document.getElementById('stFirebaseCam'), state, label);
+        setSyncLine(document.getElementById('stFirebaseOk'), state, label);
+      }
+
+      function showSessionOnPanels() {
+        var short = phoneSession.length > 12
+          ? phoneSession.slice(0, 6) + '…' + phoneSession.slice(-4)
+          : phoneSession;
+        ['stSessionCodeGate', 'stSessionCodeCam'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.textContent = short;
+        });
+        document.getElementById('syncPanelGate').hidden = false;
+      }
+
+      async function fetchFirestoreDoc(sessionId) {
+        var res = await fetch(firestoreDocUrl(sessionId));
+        if (!res.ok) return null;
+        return res.json();
+      }
+
+      async function markPhoneScanned(sessionId) {
+        try {
+          await fetch(firestoreDocUrl(sessionId), {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fields: {
+                phoneScanned: { booleanValue: true },
+                phoneScannedAt: { stringValue: new Date().toISOString() },
+              },
+            }),
+          });
+        } catch (e) {
+          console.warn('Could not mark phone scanned', e);
+        }
+      }
+
+      function startDesktopPoll(sessionId) {
+        if (desktopPollTimer) clearInterval(desktopPollTimer);
+        var ticks = 0;
+        var row = document.getElementById('stDashboardOk');
+        setSyncLine(row, 'wait', 'Computer: waiting for dashboard…');
+        desktopPollTimer = setInterval(async function () {
+          ticks += 1;
+          try {
+            var doc = await fetchFirestoreDoc(sessionId);
+            var received = doc && doc.fields && doc.fields.desktopReceived &&
+              doc.fields.desktopReceived.booleanValue === true;
+            if (received) {
+              clearInterval(desktopPollTimer);
+              desktopPollTimer = null;
+              setSyncLine(row, 'ok', 'Computer: photo received on dashboard ✓');
+              var sub = document.getElementById('successSub');
+              if (sub) sub.textContent = 'Your computer got the photo. You can close this page.';
+              return;
+            }
+          } catch (e) { /* keep polling */ }
+          if (ticks >= 45) {
+            clearInterval(desktopPollTimer);
+            desktopPollTimer = null;
+            setSyncLine(row, 'bad', 'Computer: not received yet — keep QR open on PC');
+          } else if (ticks % 3 === 0) {
+            setSyncLine(row, 'wait', 'Computer: still waiting… (' + ticks + ')');
+          }
+        }, 2000);
+      }
+
+      if (!phoneSession) {
+        landing.hidden = false;
+        return;
+      }
+
+      showSessionOnPanels();
+      void checkFirebaseConnection().then(applyFirebaseStatusToUi);
+      void markPhoneScanned(phoneSession);
+
+      permGate.hidden = false;
+
+      function showPermErr(msg, showSettings) {
+        permErr.textContent = msg;
+        permErr.hidden = !msg;
+        if (showSettings && isIOS) {
+          permSettings.hidden = false;
+          permSettings.textContent =
+            'Settings → Safari → Camera → Allow. Then come back and tap Allow camera access again.';
+        } else if (showSettings) {
+          permSettings.hidden = false;
+          permSettings.textContent = 'Allow camera in your browser site settings, then try again.';
+        } else {
+          permSettings.hidden = true;
+        }
+      }
+
+      if (!window.isSecureContext) {
+        showPermErr(
+          'Open this page by scanning the QR with your iPhone Camera app (not a screenshot link).',
+          false,
+        );
+        allowBtn.disabled = true;
+        return;
+      }
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        showPermErr('Open this link in Safari. WhatsApp and Instagram cannot use the camera.', false);
+        allowBtn.textContent = 'Open in Safari';
+        return;
+      }
+
+      var successScreen = document.getElementById('successScreen');
+
+      function showErr(msg) {
+        if (msg) showOk('');
+        errEl.textContent = msg;
+        errEl.hidden = !msg;
+      }
+      function showOk(msg) {
+        if (msg) showErr('');
+        okEl.textContent = msg;
+        okEl.hidden = !msg;
+      }
+      function showSentSuccess(fireOk, apiOk) {
+        showErr('');
+        showOk('');
+        if (permGate) permGate.hidden = true;
+        camera.hidden = true;
+        successScreen.hidden = false;
+        document.getElementById('wrap').style.background = '#000';
+        applyFirebaseStatusToUi();
+        var uploadState = (fireOk || apiOk) ? 'ok' : 'bad';
+        var uploadText;
+        if (fireOk && apiOk) {
+          uploadText = 'Photo saved — Firebase ✓ and Blob ✓';
+        } else if (fireOk) {
+          uploadText = 'Photo saved on Firebase ✓ (this is enough)';
+        } else if (apiOk) {
+          uploadText = 'Photo saved on Blob ✓';
+        } else {
+          uploadText = 'Upload failed — tap Send again';
+        }
+        setSyncLine(document.getElementById('stUploadOk'), uploadState, uploadText);
+        if (fireOk && !apiOk) {
+          setSyncLine(
+            document.getElementById('stFirebaseOk'),
+            'ok',
+            'Firebase: connected — photo stored',
+          );
+        }
+        startDesktopPoll(phoneSession);
+      }
+
+      async function stopCamera() {
+        if (stream) {
+          stream.getTracks().forEach(function (t) { t.stop(); });
+          stream = null;
+        }
+        video.hidden = false;
+        preview.hidden = true;
+      }
+
+      function cameraErrorMessage(err) {
+        var name = err && err.name ? err.name : '';
+        if (name === 'NotAllowedError' || name === 'PermissionDeniedError') {
+          if (isIOS) {
+            return 'Camera blocked. Tap Allow if Safari asks, or go to Settings → Safari → Camera → Allow, then tap Retry.';
+          }
+          return 'Camera permission denied. Allow camera in browser settings, then tap Retry.';
+        }
+        if (name === 'NotFoundError') {
+          return 'No camera found on this device.';
+        }
+        if (name === 'NotReadableError') {
+          return 'Camera is in use by another app. Close it and tap Retry.';
+        }
+        return 'Could not open camera. Use Safari, tap Retry, and allow camera access.';
+      }
+
+      async function requestCameraPermission() {
+        showPermErr('', false);
+        allowBtn.disabled = true;
+        allowBtn.textContent = 'Waiting for Allow…';
+        try {
+          var constraints = { video: { facingMode: { ideal: 'environment' } }, audio: false };
+          try {
+            stream = await navigator.mediaDevices.getUserMedia(constraints);
+          } catch (e1) {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+          }
+          permGate.hidden = true;
+          camera.hidden = false;
+          document.getElementById('syncPanelCam').hidden = false;
+          applyFirebaseStatusToUi();
+          cameraReady = true;
+          await attachCameraStream();
+        } catch (e) {
+          var denied = e && (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError');
+          showPermErr(cameraErrorMessage(e), denied);
+          allowBtn.disabled = false;
+          allowBtn.innerHTML =
+            '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">' +
+            '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>' +
+            (denied ? ' Try again — tap Allow' : ' Allow camera access');
+        }
+      }
+
+      async function attachCameraStream() {
+        loading.hidden = false;
+        try {
+          video.srcObject = stream;
+          video.setAttribute('playsinline', '');
+          video.setAttribute('webkit-playsinline', '');
+          video.muted = true;
+          var track = stream.getVideoTracks()[0];
+          var facing = track && track.getSettings ? track.getSettings().facingMode : '';
+          video.classList.toggle('mirror', facing === 'user');
+          await video.play();
+          actionBtn.classList.add('capture-ready');
+          actionBtn.setAttribute('aria-label', 'Capture photo');
+          hint.textContent = 'Full body in shalwar kameez · tap the circle';
+        } catch (e) {
+          showErr('Camera started but preview failed. Tap Retake.');
+        } finally {
+          loading.hidden = true;
+        }
+      }
+
+      async function startCamera() {
+        if (cameraReady && stream) {
+          await attachCameraStream();
+          return;
+        }
+        permGate.hidden = false;
+        camera.hidden = true;
+        await requestCameraPermission();
+      }
+
+      function takePhoto() {
+        var w = video.videoWidth || 720;
+        var h = video.videoHeight || 1280;
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        if (video.classList.contains('mirror')) {
+          ctx.translate(w, 0);
+          ctx.scale(-1, 1);
+        }
+        ctx.drawImage(video, 0, 0, w, h);
+        capturedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+        preview.src = capturedDataUrl;
+        preview.hidden = false;
+        video.hidden = true;
+        stopCamera();
+        retakeBtn.hidden = false;
+        actionBtn.classList.remove('capture-ready');
+        actionBtn.textContent = 'Send to website';
+        actionBtn.removeAttribute('aria-label');
+        sendPhoto();
+      }
+
+      async function compressDataUrl(dataUrl, maxWidth) {
+        return new Promise(function (resolve) {
+          var img = new Image();
+          img.onload = function () {
+            var w = img.width;
+            var h = img.height;
+            if (w > maxWidth) {
+              h = Math.round(h * (maxWidth / w));
+              w = maxWidth;
+            }
+            var c = document.createElement('canvas');
+            c.width = w;
+            c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(c.toDataURL('image/jpeg', 0.75));
+          };
+          img.onerror = function () { resolve(dataUrl); };
+          img.src = dataUrl;
+        });
+      }
+
+      async function dataUrlToBlob(dataUrl) {
+        var res = await fetch(dataUrl);
+        return res.blob();
+      }
+
+      async function saveToApi(sessionId, dataUrl) {
+        var compressed = await compressDataUrl(dataUrl, 800);
+        var blob = await dataUrlToBlob(compressed);
+        var fd = new FormData();
+        fd.append('photo', blob, 'phone-photo.jpg');
+        var uploadUrl = new URL(
+          '/api/sessions/' + encodeURIComponent(sessionId) + '/photo',
+          location.origin
+        ).toString();
+        var res = await fetch(uploadUrl, { method: 'POST', body: fd });
+        if (!res.ok) {
+          var errText = '';
+          try { errText = await res.text(); } catch (e) {}
+          console.error('API upload failed', res.status, errText);
+          throw new Error('api_upload_failed');
+        }
+      }
+
+      async function saveToFirestore(sessionId, dataUrl) {
+        var compressed = await compressDataUrl(dataUrl, 640);
+        var url = firestoreDocUrl(sessionId);
+        var res = await fetch(url, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fields: {
+              imageDataUrl: { stringValue: compressed },
+              photoReady: { booleanValue: true },
+              updatedAt: { stringValue: new Date().toISOString() },
+            },
+          }),
+        });
+        if (!res.ok) {
+          console.error('Firestore save failed', res.status);
+          throw new Error('firestore_failed');
+        }
+      }
+
+      async function sendPhoto() {
+        if (!capturedDataUrl || busy) return;
+        busy = true;
+        actionBtn.disabled = true;
+        retakeBtn.disabled = true;
+        showErr('');
+        showOk('Sending photo…');
+
+        try {
+          var fireOk = false;
+          var apiOk = false;
+          try {
+            await saveToFirestore(phoneSession, capturedDataUrl);
+            fireOk = true;
+          } catch (fireErr) {
+            console.warn('Firestore save failed', fireErr);
+          }
+          try {
+            await saveToApi(phoneSession, capturedDataUrl);
+            apiOk = true;
+          } catch (apiErr) {
+            console.warn('Blob API upload failed', apiErr);
+          }
+          if (!fireOk && !apiOk) {
+            throw new Error('send_failed');
+          }
+          showSentSuccess(fireOk, apiOk);
+        } catch (e) {
+          showErr('Could not send photo. Check internet and tap the button to try again.');
+          actionBtn.disabled = false;
+          retakeBtn.disabled = false;
+          actionBtn.classList.remove('capture-ready');
+          actionBtn.textContent = 'Send again';
+        } finally {
+          busy = false;
+        }
+      }
+
+      async function retake() {
+        capturedDataUrl = null;
+        retakeBtn.hidden = true;
+        showOk('');
+        showErr('');
+        busy = false;
+        video.hidden = false;
+        preview.hidden = true;
+        actionBtn.classList.add('capture-ready');
+        actionBtn.removeAttribute('aria-label');
+        actionBtn.setAttribute('aria-label', 'Capture photo');
+        actionBtn.textContent = '';
+        if (stream) {
+          await attachCameraStream();
+        } else {
+          cameraReady = false;
+          camera.hidden = true;
+          permGate.hidden = false;
+          allowBtn.disabled = false;
+          allowBtn.innerHTML =
+            '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">' +
+            '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Allow camera access';
+          await requestCameraPermission();
+        }
+      }
+
+      allowBtn.addEventListener('click', function () {
+        void requestCameraPermission();
+      });
+
+      actionBtn.addEventListener('click', function () {
+        if (!capturedDataUrl && stream) {
+          takePhoto();
+        } else if (capturedDataUrl && !busy) {
+          sendPhoto();
+        }
+      });
+      retakeBtn.addEventListener('click', function () { void retake(); });
+    })();
+  </script>
+</body>
+</html>

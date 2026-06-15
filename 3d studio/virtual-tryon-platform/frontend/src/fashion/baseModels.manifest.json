@@ -1,0 +1,59 @@
+{
+  "models": [
+    {
+      "id": "snapmeasureai-body-model",
+      "label": "Snap Measure AI body model",
+      "publicPath": "/base-models/SnapMeasureAI-body-model.obj"
+    },
+    {
+      "id": "cloth-1",
+      "label": "cloth (1)",
+      "publicPath": "/base-models/cloth%20(1).glb"
+    },
+    {
+      "id": "cloth",
+      "label": "cloth",
+      "publicPath": "/base-models/cloth.glb"
+    },
+    {
+      "id": "cloth-female",
+      "label": "cloth female",
+      "publicPath": "/base-models/cloth_female.glb"
+    },
+    {
+      "id": "cloth-practice-md",
+      "label": "cloth practice md",
+      "publicPath": "/base-models/cloth_practice_md.glb"
+    },
+    {
+      "id": "female-cloth1",
+      "label": "female cloth1",
+      "publicPath": "/base-models/female_cloth1.glb"
+    },
+    {
+      "id": "handsome-male-basemesh",
+      "label": "handsome male basemesh",
+      "publicPath": "/base-models/handsome_male_basemesh.glb"
+    },
+    {
+      "id": "male-body",
+      "label": "male body",
+      "publicPath": "/base-models/male_body.glb"
+    },
+    {
+      "id": "stylized-basemesh",
+      "label": "stylized basemesh",
+      "publicPath": "/base-models/stylized_basemesh.glb"
+    },
+    {
+      "id": "swimmsuit",
+      "label": "swimmsuit",
+      "publicPath": "/base-models/swimmsuit.glb"
+    },
+    {
+      "id": "white-grace",
+      "label": "white grace",
+      "publicPath": "/base-models/white_grace.glb"
+    }
+  ]
+}

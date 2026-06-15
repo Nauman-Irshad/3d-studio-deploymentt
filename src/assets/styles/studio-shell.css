@@ -1,0 +1,24 @@
+/* 2D TryKurti header on top + full-height 3D studio iframe below */
+
+.studio-shell-app {
+  --tk-header-height: 72px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #f5f1eb;
+}
+
+.studio-shell-app:has(.tk-header--with-status) {
+  --tk-header-height: 118px;
+}
+
+.studio-shell-frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  border: none;
+  display: block;
+  background: #f1f5f9;
+}

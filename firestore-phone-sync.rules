@@ -1,0 +1,10 @@
+// Firebase Console → Firestore → Rules → paste this, then Publish.
+// Project: smart-fitao-web-app (or your VITE_FIRESTORE_PROJECT_ID)
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /phone_tryon_sync/{sessionId} {
+      allow read, write: if true;
+    }
+  }
+}

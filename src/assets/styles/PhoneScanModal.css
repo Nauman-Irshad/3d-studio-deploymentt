@@ -1,0 +1,305 @@
+.phone-scan-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(26, 22, 18, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.phone-scan-modal {
+  position: relative;
+  width: min(420px, 100%);
+  max-height: min(92vh, 720px);
+  overflow-y: auto;
+  padding: 1.35rem 1.35rem 1.1rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--border, #e8e2d8);
+  box-shadow: 0 24px 64px rgba(26, 22, 18, 0.18);
+  text-align: center;
+}
+
+.phone-scan-close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--surface-alt, #f8f6f3);
+  color: var(--ink, #1a1612);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.phone-scan-brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.65rem;
+}
+
+.phone-scan-brand .tk-logo-3d {
+  box-shadow: 0 4px 16px rgba(107, 33, 64, 0.15);
+}
+
+.phone-scan-eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--champagne, #c9a962);
+}
+
+.phone-scan-modal h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.25rem;
+  color: var(--ink, #1a1612);
+}
+
+.phone-scan-sub {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted, #6b5d52);
+}
+
+.phone-scan-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 0;
+  color: var(--muted, #6b5d52);
+  font-size: 0.85rem;
+}
+
+.phone-scan-qr-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.85rem;
+}
+
+.phone-scan-qr-wrap--visible {
+  animation: phone-scan-qr-in 0.35s ease;
+}
+
+@keyframes phone-scan-qr-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.phone-scan-scanned {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 0.75rem;
+  margin-bottom: 0.65rem;
+  border-radius: 12px;
+  background: linear-gradient(165deg, #ecfdf5 0%, #f0fdf4 100%);
+  border: 1px solid #a7f3d0;
+  animation: phone-scan-success-in 0.35s ease;
+}
+
+.phone-scan-scanned-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.phone-scan-scanned-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #047857;
+}
+
+.phone-scan-scanned-sub {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #065f46;
+}
+
+.phone-scan-status.scanned {
+  color: #047857;
+}
+
+.phone-scan-qr {
+  width: min(280px, 72vw);
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--border, #e8e2d8);
+  background: #fff;
+}
+
+.phone-scan-qr-wrap--dimmed {
+  opacity: 0.55;
+}
+
+.phone-scan-qr-wrap--dimmed .phone-scan-qr {
+  max-width: 200px;
+}
+
+.phone-scan-status {
+  margin: 0 0 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.phone-scan-session {
+  margin: 0.35rem 0 0;
+  font-size: 0.72rem;
+  color: var(--muted, #6b6560);
+  word-break: break-all;
+}
+
+.phone-scan-session code {
+  font-size: 0.68rem;
+  background: var(--surface-alt, #f8f6f3);
+  padding: 0.12rem 0.35rem;
+  border-radius: 4px;
+}
+
+.phone-scan-hint {
+  margin: 0.5rem 0 0;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #92400e;
+  background: #fffbeb;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.phone-scan-status.waiting {
+  color: var(--brown-muted, #8a7568);
+}
+
+.phone-scan-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1.25rem 0.5rem 1.5rem;
+  animation: phone-scan-success-in 0.35s ease;
+}
+
+.phone-scan-success-tick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-scan-success-circle {
+  stroke: #059669;
+  stroke-width: 2.5;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: phone-scan-stroke-circle 0.55s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.phone-scan-success-check {
+  stroke: #059669;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: phone-scan-stroke-check 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.45s forwards;
+}
+
+.phone-scan-success-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #047857;
+}
+
+.phone-scan-success-sub {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted, #6b5d52);
+}
+
+@keyframes phone-scan-success-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes phone-scan-stroke-circle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes phone-scan-stroke-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.phone-scan-error {
+  margin: 0 0 0.65rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  font-size: 0.8rem;
+}
+
+.phone-scan-link {
+  margin: 0 0 0.85rem;
+  font-size: 0.72rem;
+  color: var(--muted, #6b5d52);
+  word-break: break-all;
+}
+
+.phone-scan-link a {
+  color: var(--ink, #1a1612);
+}
+
+.phone-scan-actions {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.phone-scan-btn {
+  flex: 1;
+  padding: 0.7rem 0.85rem;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.phone-scan-btn.primary {
+  border: none;
+  background: var(--ink, #1a1612);
+  color: #fff;
+}
+
+.phone-scan-btn.ghost {
+  border: 1px solid var(--border, #e8e2d8);
+  background: #fff;
+  color: var(--ink, #1a1612);
+}

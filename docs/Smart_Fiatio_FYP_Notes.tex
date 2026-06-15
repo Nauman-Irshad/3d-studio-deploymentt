@@ -1,0 +1,137 @@
+% Smart Fiatio — FYP Notes (short, compile: pdflatex or Overleaf)
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{parskip}
+
+\hypersetup{colorlinks=true,linkcolor=teal,urlcolor=teal}
+\setlist{nosep,leftmargin=*}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,backgroundcolor=\color{gray!8}}
+
+\title{\textbf{Smart Fiatio --- 2D Kurta Try-On}\\[0.2em]\large FYP Notes \& Run Guide}
+\author{\texttt{id-2d-try-on}}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.5em}
+
+%==============================================================================
+\section{Overview}
+%==============================================================================
+\textbf{Smart Fiatio} is a local web app: user uploads a portrait photo, picks a kurta from 31 designs, AI fits the kurta on the person (upper body). Stack: \textbf{React/Vite} UI $\rightarrow$ \textbf{FastAPI} $\rightarrow$ Hugging Face \textbf{IDM-VTON} (free). Garments credited to \href{https://www.affordable.pk/}{affordable.pk}. Replicate is \textbf{not} used.
+
+%==============================================================================
+\section{How It Works (Flow)}
+%==============================================================================
+
+\subsection{User flow}
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  \item \textbf{Upload photo} (JPG/PNG, portrait, front view) $\rightarrow$ validated in browser.
+  \item \textbf{Select kurta} from gallery $\rightarrow$ large preview updates.
+  \item \textbf{Run Try-On} $\rightarrow$ progress 0--100\%.
+  \item \textbf{Output} $\rightarrow$ view result, \textbf{Download picture}.
+\end{enumerate}
+
+\subsection{Technical flow (one try-on)}
+\begin{verbatim}
+[User] upload photo + pick kurta
+    |
+    v
+[Browser] validate portrait -> JPEG resize (imageUtils.ts)
+    |
+    v
+[Browser] POST /api/tryon  (FormData: human_img, garm_img, garment_des)
+    |        via Vite proxy :5173 -> :8765
+    v
+[FastAPI] replicate_tryon_server.py -> hf_tryon.py
+    |
+    v
+[HF Space] yisol/IDM-VTON  (gradio_client, ~1-5 min queue)
+    |        upper-body mask + kurta image + text prompt
+    v
+[API] returns { url } or { image_base64 }
+    |
+    v
+[Browser] show image + download
+\end{verbatim}
+
+\subsection{Data flow summary}
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}cll@{}}
+\toprule
+Step & Component & What happens \\
+\midrule
+1 & \texttt{App.tsx} & User photo + kurta URL from \texttt{public/garments/} \\
+2 & \texttt{config.ts} & Request to \texttt{/api/tryon} (proxied) \\
+3 & \texttt{hf\_tryon.py} & Send images to IDM-VTON Space \\
+4 & HF GPU & Generate try-on image \\
+5 & UI & Display + optional download \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%==============================================================================
+\section{Run the Project}
+%==============================================================================
+\textbf{Prerequisites:} Node 18+, Python 3.10+, internet.
+
+\begin{lstlisting}
+pip install -r requirements.txt && npm install
+\end{lstlisting}
+
+\textbf{Terminal A:} \texttt{npm run api} $\rightarrow$ \url{http://127.0.0.1:8765/health}
+
+\textbf{Terminal B:} \texttt{npm run dev} $\rightarrow$ \url{http://localhost:5173/}
+
+\textbf{Add kurtas:} \texttt{npm run sync:garments} then refresh browser.
+
+\textbf{.env:} \texttt{TRYON\_PROVIDER=idm-vton}, optional \texttt{HF\_TOKEN=} for better HF queue.
+
+%==============================================================================
+\section{Key Details}
+%==============================================================================
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+Topic & Detail \\
+\midrule
+Kurtas in app & 31 (in \texttt{public/garments/manifest.json}) \\
+Try-ons per click & 1 result (1 photo + 1 kurta) \\
+App limit & None; HF daily GPU quota applies \\
+Free HF quota & $\sim$3--8 runs/day (see \url{huggingface.co/settings/billing}) \\
+Time per run & 1--5 minutes \\
+Photo rules & Portrait, min 280$\times$400 px, not flat garment-only \\
+Main files & \texttt{App.tsx}, \texttt{hf\_tryon.py}, \texttt{replicate\_tryon\_server.py} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{API (POST \texttt{/api/tryon})}
+\texttt{human\_img}, \texttt{garm\_img}, \texttt{garment\_des} (optional), \texttt{tryon\_mode=upper}. Response: \texttt{url} or \texttt{image\_base64}.
+
+\subsection{Common fixes}
+\begin{tabular}{@{}p{3.2cm}p{10cm}@{}}
+\toprule
+Issue & Fix \\
+\midrule
+API error & Run \texttt{npm run api} \\
+No kurtas & \texttt{npm run sync:garments} \\
+HF timeout & Retry; add \texttt{HF\_TOKEN} in \texttt{.env} \\
+Wrong port & Use Vite URL from terminal (5173 or 5174) \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\noindent\textbf{Compile PDF:} Upload this \texttt{.tex} to Overleaf $\rightarrow$ pdfLaTeX. Or: \texttt{pdflatex Smart\_Fiatio\_FYP\_Notes.tex} (twice).
+
+\end{document}

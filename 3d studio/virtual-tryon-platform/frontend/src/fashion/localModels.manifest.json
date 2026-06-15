@@ -1,0 +1,95 @@
+{
+  "products": [
+    {
+      "id": "kurta-white",
+      "label": "WHITE",
+      "fileLabel": "WHITE.glb",
+      "publicPath": "/landing page product/kurta/WHITE.glb",
+      "price": ""
+    },
+    {
+      "id": "kurta-black-kurta",
+      "label": "black kurta ",
+      "fileLabel": "black kurta .glb",
+      "publicPath": "/landing page product/kurta/black kurta .glb",
+      "price": ""
+    },
+    {
+      "id": "kurta-brown-kurta",
+      "label": "brown kurta",
+      "fileLabel": "brown kurta.glb",
+      "publicPath": "/landing page product/kurta/brown kurta.glb",
+      "price": ""
+    },
+    {
+      "id": "kurta-sky-blue-kurta",
+      "label": "sky blue kurta",
+      "fileLabel": "sky blue kurta.glb",
+      "publicPath": "/landing page product/kurta/sky blue kurta.glb",
+      "price": ""
+    },
+    {
+      "id": "shalwar-kameez-black-shalwar-kameez",
+      "label": "black shalwar kameez",
+      "fileLabel": "black shalwar kameez.glb",
+      "publicPath": "/landing page product/shalwar kameez/black shalwar kameez.glb",
+      "price": ""
+    },
+    {
+      "id": "shalwar-kameez-brown-1",
+      "label": "brown 1",
+      "fileLabel": "brown 1.glb",
+      "publicPath": "/landing page product/shalwar kameez/brown 1.glb",
+      "price": ""
+    },
+    {
+      "id": "shalwar-kameez-navy-kurta-3d-model",
+      "label": "navy kurta 3d model",
+      "fileLabel": "navy kurta 3d model.glb",
+      "publicPath": "/landing page product/shalwar kameez/navy kurta 3d model.glb",
+      "price": ""
+    },
+    {
+      "id": "shalwar-kameez-white-shalwar-kameez",
+      "label": "white shalwar kameez",
+      "fileLabel": "white shalwar kameez.glb",
+      "publicPath": "/landing page product/shalwar kameez/white shalwar kameez.glb",
+      "price": ""
+    },
+    {
+      "id": "product1-sample1",
+      "label": "Classic Kurta",
+      "fileLabel": "sample1.gltf",
+      "publicPath": "/models/product1/sample1.gltf",
+      "price": "Rs 8,990"
+    },
+    {
+      "id": "product2-sample1",
+      "label": "Shalwar Kameez · Ivory",
+      "fileLabel": "sample1.gltf",
+      "publicPath": "/models/product2/sample1.gltf",
+      "price": "Rs 11,500"
+    },
+    {
+      "id": "product3-sample5",
+      "label": "Embroidered Festive Suit",
+      "fileLabel": "sample5.gltf",
+      "publicPath": "/models/product3/sample5.gltf",
+      "price": "Rs 18,900"
+    },
+    {
+      "id": "product4-sample8",
+      "label": "Lawn Pret · J. Studio",
+      "fileLabel": "sample8.gltf",
+      "publicPath": "/models/product4/sample8.gltf",
+      "price": "Rs 9,450"
+    },
+    {
+      "id": "product5-sample4",
+      "label": "Formal Waistcoat Set",
+      "fileLabel": "sample4.gltf",
+      "publicPath": "/models/product5/sample4.gltf",
+      "price": "Rs 14,200"
+    }
+  ]
+}

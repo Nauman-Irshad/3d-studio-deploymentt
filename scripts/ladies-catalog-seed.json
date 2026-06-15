@@ -1,0 +1,154 @@
+{
+  "categories": [
+    {
+      "folder": "kids",
+      "items": [
+        { "name": "web-kids-01.jpg", "url": "https://images.unsplash.com/photo-1759851684030-818f50799ce5?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-kids-02.jpg", "url": "https://images.unsplash.com/photo-1759851684329-f34e3f3fb8b1?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-kids-03.jpg", "url": "https://images.pexels.com/photos/8613086/pexels-photo-8613086.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-04.jpg", "url": "https://images.pexels.com/photos/8613079/pexels-photo-8613079.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-05.jpg", "url": "https://images.pexels.com/photos/8613069/pexels-photo-8613069.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-06.jpg", "url": "https://images.pexels.com/photos/8613059/pexels-photo-8613059.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-07.jpg", "url": "https://images.pexels.com/photos/8613053/pexels-photo-8613053.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-08.jpg", "url": "https://images.pexels.com/photos/8613048/pexels-photo-8613048.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-09.jpg", "url": "https://images.pexels.com/photos/8613043/pexels-photo-8613043.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-10.jpg", "url": "https://images.pexels.com/photos/8613038/pexels-photo-8613038.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-11.jpg", "url": "https://images.pexels.com/photos/8613033/pexels-photo-8613033.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-12.jpg", "url": "https://images.pexels.com/photos/8613028/pexels-photo-8613028.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-13.jpg", "url": "https://images.pexels.com/photos/8613085/pexels-photo-8613085.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-14.jpg", "url": "https://images.pexels.com/photos/8613018/pexels-photo-8613018.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-kids-15.jpg", "url": "https://images.pexels.com/photos/8613013/pexels-photo-8613013.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" }
+      ]
+    },
+    {
+      "folder": "texture try on",
+      "items": [
+        { "name": "web-texture-01.jpg", "url": "https://images.unsplash.com/photo-1742800764280-d51117b7eb0a?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-texture-02.jpg", "url": "https://images.unsplash.com/photo-1743229995753-69be4b438204?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-texture-03.jpg", "url": "https://images.unsplash.com/photo-1767687717463-1c9a555c76c1?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-texture-04.jpg", "url": "https://images.unsplash.com/photo-1759840278381-bf7d5e332050?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-texture-05.jpg", "url": "https://images.unsplash.com/photo-1742800766508-da7ac424b073?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-texture-06.jpg", "url": "https://images.pexels.com/photos/6311395/pexels-photo-6311395.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-07.jpg", "url": "https://images.pexels.com/photos/6311250/pexels-photo-6311250.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-08.jpg", "url": "https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-09.jpg", "url": "https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-10.jpg", "url": "https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-11.jpg", "url": "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-12.jpg", "url": "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-13.jpg", "url": "https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-14.jpg", "url": "https://images.pexels.com/photos/1755385/pexels-photo-1755385.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-15.jpg", "url": "https://images.pexels.com/photos/1884581/pexels-photo-1884581.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-16.jpg", "url": "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-17.jpg", "url": "https://images.pexels.com/photos/206867/pexels-photo-206867.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-18.jpg", "url": "https://images.pexels.com/photos/994517/pexels-photo-994517.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-19.jpg", "url": "https://images.pexels.com/photos/1126993/pexels-photo-1126993.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-texture-20.jpg", "url": "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" }
+      ]
+    },
+    {
+      "folder": "user image ladies",
+      "items": [
+        { "name": "web-ladies-01.jpg", "url": "https://images.unsplash.com/photo-1742800786544-e935375035e3?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-ladies-02.jpg", "url": "https://images.unsplash.com/photo-1759840278862-ef629e9b0f64?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-ladies-03.jpg", "url": "https://images.unsplash.com/photo-1761393382562-8ad78afa1179?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-ladies-04.jpg", "url": "https://images.pexels.com/photos/6311395/pexels-photo-6311395.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-05.jpg", "url": "https://images.pexels.com/photos/6311250/pexels-photo-6311250.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-06.jpg", "url": "https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-07.jpg", "url": "https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-08.jpg", "url": "https://images.unsplash.com/photo-1742800764280-d51117b7eb0a?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-ladies-09.jpg", "url": "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-10.jpg", "url": "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-11.jpg", "url": "https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-12.jpg", "url": "https://images.pexels.com/photos/1755385/pexels-photo-1755385.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-13.jpg", "url": "https://images.pexels.com/photos/1884581/pexels-photo-1884581.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-14.jpg", "url": "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-15.jpg", "url": "https://images.pexels.com/photos/206867/pexels-photo-206867.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-16.jpg", "url": "https://images.pexels.com/photos/994517/pexels-photo-994517.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-17.jpg", "url": "https://images.pexels.com/photos/1126993/pexels-photo-1126993.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-18.jpg", "url": "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-ladies-19.jpg", "url": "https://images.unsplash.com/photo-1743229995753-69be4b438204?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-ladies-20.jpg", "url": "https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" }
+      ]
+    },
+    {
+      "folder": "formal wear",
+      "items": [
+        { "name": "web-formal-01.jpg", "url": "https://images.unsplash.com/photo-1742800764280-d51117b7eb0a?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-formal-02.jpg", "url": "https://images.unsplash.com/photo-1743229995753-69be4b438204?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-formal-03.jpg", "url": "https://images.unsplash.com/photo-1742800786544-e935375035e3?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-formal-04.jpg", "url": "https://images.unsplash.com/photo-1759840278862-ef629e9b0f64?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-formal-05.jpg", "url": "https://images.pexels.com/photos/6311395/pexels-photo-6311395.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-formal-06.jpg", "url": "https://images.pexels.com/photos/6311250/pexels-photo-6311250.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-formal-07.jpg", "url": "https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-formal-08.jpg", "url": "https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-formal-09.jpg", "url": "https://images.unsplash.com/photo-1742800766508-da7ac424b073?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-formal-10.jpg", "url": "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-formal-11.jpg", "url": "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-formal-12.jpg", "url": "https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-formal-13.jpg", "url": "https://images.pexels.com/photos/1755385/pexels-photo-1755385.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-formal-14.jpg", "url": "https://images.pexels.com/photos/1884581/pexels-photo-1884581.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-formal-15.jpg", "url": "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" }
+      ]
+    },
+    {
+      "folder": "party wear",
+      "items": [
+        { "name": "web-party-01.jpg", "url": "https://images.unsplash.com/photo-1767687717463-1c9a555c76c1?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-party-02.jpg", "url": "https://images.unsplash.com/photo-1759840278381-bf7d5e332050?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-party-03.jpg", "url": "https://images.unsplash.com/photo-1742800766508-da7ac424b073?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-party-04.jpg", "url": "https://images.unsplash.com/photo-1761393382562-8ad78afa1179?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-party-05.jpg", "url": "https://images.pexels.com/photos/6311395/pexels-photo-6311395.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-party-06.jpg", "url": "https://images.pexels.com/photos/6311250/pexels-photo-6311250.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-party-07.jpg", "url": "https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-party-08.jpg", "url": "https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-party-09.jpg", "url": "https://images.unsplash.com/photo-1767687717463-1c9a555c76c1?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-party-10.jpg", "url": "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-party-11.jpg", "url": "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-party-12.jpg", "url": "https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-party-13.jpg", "url": "https://images.pexels.com/photos/1755385/pexels-photo-1755385.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-party-14.jpg", "url": "https://images.pexels.com/photos/1884581/pexels-photo-1884581.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-party-15.jpg", "url": "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" }
+      ]
+    },
+    {
+      "folder": "casual kurtis",
+      "items": [
+        { "name": "web-casual-01.jpg", "url": "https://images.unsplash.com/photo-1742800764280-d51117b7eb0a?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-casual-02.jpg", "url": "https://images.unsplash.com/photo-1743229995753-69be4b438204?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-casual-03.jpg", "url": "https://images.unsplash.com/photo-1767687717463-1c9a555c76c1?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-casual-04.jpg", "url": "https://images.unsplash.com/photo-1759840278381-bf7d5e332050?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-casual-05.jpg", "url": "https://images.pexels.com/photos/6311395/pexels-photo-6311395.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-casual-06.jpg", "url": "https://images.pexels.com/photos/6311250/pexels-photo-6311250.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-casual-07.jpg", "url": "https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-casual-08.jpg", "url": "https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-casual-09.jpg", "url": "https://images.unsplash.com/photo-1759840278381-bf7d5e332050?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-casual-10.jpg", "url": "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-casual-11.jpg", "url": "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-casual-12.jpg", "url": "https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-casual-13.jpg", "url": "https://images.pexels.com/photos/1755385/pexels-photo-1755385.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-casual-14.jpg", "url": "https://images.pexels.com/photos/1884581/pexels-photo-1884581.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-casual-15.jpg", "url": "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" }
+      ]
+    },
+    {
+      "folder": "festive collection",
+      "items": [
+        { "name": "web-festive-01.jpg", "url": "https://images.unsplash.com/photo-1742800786544-e935375035e3?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-festive-02.jpg", "url": "https://images.unsplash.com/photo-1759840278862-ef629e9b0f64?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-festive-03.jpg", "url": "https://images.unsplash.com/photo-1761393382562-8ad78afa1179?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-festive-04.jpg", "url": "https://images.unsplash.com/photo-1742800766508-da7ac424b073?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-festive-05.jpg", "url": "https://images.pexels.com/photos/6311395/pexels-photo-6311395.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-festive-06.jpg", "url": "https://images.pexels.com/photos/6311250/pexels-photo-6311250.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-festive-07.jpg", "url": "https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-festive-08.jpg", "url": "https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-festive-09.jpg", "url": "https://images.unsplash.com/photo-1759840278862-ef629e9b0f64?w=900&h=1200&fit=crop&q=80" },
+        { "name": "web-festive-10.jpg", "url": "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-festive-11.jpg", "url": "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-festive-12.jpg", "url": "https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-festive-13.jpg", "url": "https://images.pexels.com/photos/1755385/pexels-photo-1755385.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-festive-14.jpg", "url": "https://images.pexels.com/photos/1884581/pexels-photo-1884581.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" },
+        { "name": "web-festive-15.jpg", "url": "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinyrgb&w=900&h=1200&fit=crop" }
+      ]
+    }
+  ]
+}
