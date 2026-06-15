@@ -79,3 +79,19 @@ Local dev: `npm run api` (Python on :8765) + `npm run dev` (Vite proxies `/api`)
 ## 6. Ladies catalog images
 
 `npm run build` runs `sync-ladies-catalog` which copies images into `public/ladies-catalog/` and bakes **J. Ladies** display names into `manifest.json`. Commit `public/ladies-catalog/` or ensure `ladies all work/` exists on the build machine.
+
+## 7. 3D studio on Vercel (no nested build)
+
+Vercel does **not** rebuild `3d studio/virtual-tryon-platform/frontend` (avoids Tailwind/postcss errors). It uses the **committed** `public/garment-3d/` folder.
+
+Before pushing to GitHub, refresh locally:
+
+```powershell
+cd "E:\fyp whole backend\id-2d-try-on"
+npm run sync:3d-studio
+git add public/garment-3d
+git commit -m "Update committed 3D studio bundle for Vercel"
+git push
+```
+
+Then redeploy on Vercel (or push triggers auto-deploy).
