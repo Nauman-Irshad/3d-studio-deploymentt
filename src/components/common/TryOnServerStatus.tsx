@@ -16,6 +16,7 @@ function statusKind(health: TryOnServerState): "loading" | "off" | "live" | "pre
 export function TryOnServerStatus({ health, onRefresh, variant = "header" }: Props) {
   const kind = statusKind(health);
   const isEmbedded = variant === "embedded";
+  const isProd = import.meta.env.PROD;
 
   if (isEmbedded) {
     const label =
@@ -38,7 +39,9 @@ export function TryOnServerStatus({ health, onRefresh, variant = "header" }: Pro
           kind === "live"
             ? `${health.engine || "IDM-VTON"} · ${health.etaLabel}${health.hfTokenSet ? " · HF token set" : ""}`
             : kind === "off"
-              ? "Run npm run api — click to refresh"
+              ? isProd
+                ? "Render API — click to refresh"
+                : "Run npm run api — click to refresh"
               : "Click to refresh server status"
         }
       >
@@ -64,8 +67,12 @@ export function TryOnServerStatus({ health, onRefresh, variant = "header" }: Pro
           : "2D Try-On Server: ON";
 
   const meta = (() => {
-    if (kind === "loading") return "Connecting to port 8765…";
-    if (kind === "off") return "Run npm run api — click to refresh";
+    if (kind === "loading") return isProd ? "Connecting to Render API…" : "Connecting to port 8765…";
+    if (kind === "off") {
+      return isProd
+        ? "Render API waking up — click to refresh (free tier ~30s cold start)"
+        : "Run npm run api — click to refresh";
+    }
     if (kind === "preview") return "Mock mode — not real Hugging Face AI";
     const tokenLabel = health.hfTokenSet ? "HF token ✓" : "HF token optional";
     return `Works with Hugging Face · ${health.engine || "IDM-VTON (Hugging Face)"} · ${health.etaLabel} · ${tokenLabel}`;

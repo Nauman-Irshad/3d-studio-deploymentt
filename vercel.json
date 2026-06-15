@@ -2,6 +2,9 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
+  "env": {
+    "VITE_TRYON_BACKEND": "https://threed-studio-deploymentt.onrender.com"
+  },
   "headers": [
     {
       "source": "/((?!studio(?:/|$)|garment-3d(?:/|$)|phone-capture(?:/|$)).*)",

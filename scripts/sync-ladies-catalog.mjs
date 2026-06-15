@@ -28,9 +28,29 @@ function formatLabel(folderName) {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+function readExistingManifest() {
+  const manifestPath = path.join(destRoot, "manifest.json");
+  if (!fs.existsSync(manifestPath)) return null;
+  try {
+    const data = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    const categories = Array.isArray(data?.categories) ? data.categories : [];
+    return categories.length ? data : null;
+  } catch {
+    return null;
+  }
+}
+
 function syncCatalog() {
+  const existing = readExistingManifest();
+
   if (!fs.existsSync(sourceRoot)) {
     console.warn(`[sync-ladies-catalog] Source not found: ${sourceRoot}`);
+    if (existing) {
+      console.log(
+        "[sync-ladies-catalog] Keeping committed public/ladies-catalog (Vercel has no ladies all work/)",
+      );
+      return;
+    }
     fs.mkdirSync(destRoot, { recursive: true });
     fs.writeFileSync(
       path.join(destRoot, "manifest.json"),

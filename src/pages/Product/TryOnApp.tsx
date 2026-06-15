@@ -201,7 +201,13 @@ function TryOnAppInner({ config }: { config: TryOnConfig }) {
           setError(config.emptyGalleryMessage);
         }
       } catch {
-        if (!cancelled) setError("Could not load outfit gallery. Is npm run dev running?");
+        if (!cancelled) {
+          setError(
+            import.meta.env.PROD
+              ? "Could not load outfit gallery. Refresh the page or try again in a minute."
+              : "Could not load outfit gallery. Is npm run dev running?",
+          );
+        }
       }
     })();
     return () => {
@@ -229,7 +235,13 @@ function TryOnAppInner({ config }: { config: TryOnConfig }) {
           setError(config.emptyGalleryMessage);
         }
       } catch {
-        if (!cancelled) setError("Could not load ladies collections. Is npm run dev running?");
+        if (!cancelled) {
+          setError(
+            import.meta.env.PROD
+              ? "Could not load ladies collections. Refresh the page — if this persists, redeploy may still be in progress."
+              : "Could not load ladies collections. Is npm run dev running?",
+          );
+        }
       }
     })();
     return () => {
@@ -774,7 +786,11 @@ function TryOnAppInner({ config }: { config: TryOnConfig }) {
       if (e instanceof DOMException && e.name === "AbortError") {
         setError("AI try-on timed out (10 min). Hugging Face busy — try again.");
       } else if (msg.includes("Failed to fetch") || msg.includes("NetworkError")) {
-        setError("Cannot reach try-on API. Run: npm run api (port 8765)");
+        setError(
+          import.meta.env.PROD
+            ? "Cannot reach try-on API on Render. Wait ~30s (free tier cold start) and try again."
+            : "Cannot reach try-on API. Run: npm run api (port 8765)",
+        );
       } else {
         setError(msg);
       }
