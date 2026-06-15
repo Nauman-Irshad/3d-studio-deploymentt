@@ -16,77 +16,64 @@ git remote add origin https://github.com/Nauman-Irshad/3d-studio-deploymentt.git
 git push -u origin main
 ```
 
-## 2. Import on Vercel
+## 2. Import on Vercel (frontend only)
 
 1. [vercel.com/new](https://vercel.com/new) → Import `3d-studio-deploymentt`
 2. Framework: **Vite**
 3. Build command: `npm run build`
 4. Output directory: `dist`
-5. Deploy
+5. **Environment variable (required when API is on Render):**
 
-`vercel.json` in this repo already configures routes for:
+| Key | Value |
+|-----|--------|
+| `VITE_TRYON_BACKEND` | `https://threed-studio-deploymentt.onrender.com` |
 
-- `/` — Men's 2D try-on
-- `/ladies_try_on/` — Women's try-on
-- `/studio/` — 3D studio shell
-- `/garment-3d/` — Embedded 3D app
-- `/api/tryon` — Serverless AI try-on (Python)
-- `/api/tryon/health` — API health check
+6. Deploy
 
-## 3. Environment variables (Vercel → Settings → Environment Variables)
+**No Python on Vercel** — `api/tryon.py` was moved to `render-only/` so you will **not** get the 500MB / 2GB bundle error.
 
-### Server-only (never use `VITE_` prefix — not exposed to browsers)
+Try-on API runs on **Render** (`replicate_tryon_server.py`). Token stays on Render only.
+
+## 3. Environment variables
+
+### Vercel (frontend)
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `HF_TOKEN` | Recommended | Hugging Face token for IDM-VTON Space. **Stays on server only.** |
+| `VITE_TRYON_BACKEND` | **Yes** | `https://threed-studio-deploymentt.onrender.com` (no trailing slash) |
+| `VITE_CV_PHONE_URL` | Optional | Phone capture page, e.g. `https://qr-code-web-deploy.vercel.app/phone-capture` |
+
+**Do not** set `HF_TOKEN` on Vercel — it stays on Render only.
+
+### Render (API)
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `HF_TOKEN` | Recommended | Hugging Face token for IDM-VTON |
 | `TRYON_PROVIDER` | No | `idm-vton` (default) |
-| `TRYON_MOCK` | No | `0` for real AI, `1` for preview overlay only |
+| `TRYON_MOCK` | No | `0` for real AI, `1` for preview overlay |
 | `TRYON_FAST` | No | `1` for faster try-on (~30s) |
-| `TRYON_MAX_SIDE` | No | `512` default |
-| `TRYON_PERSON_MAX_SIDE` | No | `768` default |
-| `TRYON_DENOISE_STEPS` | No | `20` minimum for IDM-VTON |
 
-### Client-safe (optional `VITE_` prefix)
+## 4. How it works (no size error on Vercel)
 
-| Variable | Description |
-|----------|-------------|
-| `VITE_CV_PHONE_URL` | HTTPS phone capture page, e.g. `https://qr-code-web-deploy.vercel.app/phone-capture` |
+| Service | Role |
+|---------|------|
+| **Vercel** | Static React app + `public/garment-3d/` (~1.3 GB on CDN — OK) |
+| **Render** | Python try-on API (`replicate_tryon_server.py`) |
 
-### Do NOT set on Vercel
+The browser calls `https://threed-studio-deploymentt.onrender.com/api/tryon` because `VITE_TRYON_BACKEND` is set. Python is **not** bundled into Vercel Lambdas, so you avoid the **500 MB / 2 GB** serverless limit.
 
-| Variable | Why |
-|----------|-----|
-| `VITE_TRYON_BACKEND` | Leave unset — production uses same-origin `/api` |
-| `HF_TOKEN` with `VITE_` | **Never** — would leak your token in the browser bundle |
-
-## 4. How API security works
-
-- Browser calls `POST /api/tryon` on **your Vercel domain** (same origin).
-- Vercel runs `api/tryon.py` as a **serverless function**.
-- `HF_TOKEN` is read from `os.environ` **only inside that function**.
-- Users never see the token in Network tab or page source.
-
-### If deploy fails: “bundle size exceeds 500 MB”
-
-Vercel Python functions bundle **your whole repo** by default (including `public/garment-3d`, images, WASM). That can be **2 GB+**.
-
-This repo fixes that with `excludeFiles` in `vercel.json` so only `api/*.py` + `hf_tryon.py` + pip packages are included.
-
-If it **still** fails after `excludeFiles`, host the API on **Render** (free) and point the frontend at it:
-
-1. Deploy `render.yaml` on [Render](https://render.com) → add `HF_TOKEN` there.
-2. On Vercel → Environment Variables → `VITE_TRYON_BACKEND` = `https://YOUR-SERVICE.onrender.com`
-3. Redeploy Vercel (token stays on Render, not in the browser).
+`api/sessions/*.ts` on Vercel still handles phone-capture sessions (small Node functions).
 
 Local dev: `npm run api` (Python on :8765) + `npm run dev` (Vite proxies `/api`).
 
 ## 5. After deploy — test
 
 1. `https://YOUR-PROJECT.vercel.app/` — men's try-on
-2. `https://YOUR-PROJECT.vercel.app/ladies_try_on/` — ladies (J. Ladies product names in sidebar)
-3. `https://YOUR-PROJECT.vercel.app/api/tryon/health` — should return `"status":"ok"`
-4. Upload photo + pick garment → Run Try-On
+2. `https://YOUR-PROJECT.vercel.app/ladies_try_on/` — ladies (J. Ladies product names)
+3. Open DevTools → Network → try-on should hit `threed-studio-deploymentt.onrender.com/api/tryon`
+4. Health: `https://threed-studio-deploymentt.onrender.com/api/tryon/health` → `"status":"ok"`
+5. Upload photo + pick garment → Run Try-On
 
 ## 6. Ladies catalog images
 

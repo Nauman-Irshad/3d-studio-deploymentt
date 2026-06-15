@@ -12,7 +12,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/phone-capture", "destination": "/phone-capture/index.html" },
     { "source": "/phone-capture/", "destination": "/phone-capture/index.html" },
     { "source": "/capture/:path*", "destination": "/index.html" },
@@ -21,15 +20,5 @@
     { "source": "/studio", "destination": "/studio/index.html" },
     { "source": "/studio/", "destination": "/studio/index.html" },
     { "source": "/((?!api/|assets/|garments/|garment-3d/|phone-capture/|ladies-garments/|ladies-catalog/|ladies_try_on/).*)", "destination": "/index.html" }
-  ],
-  "functions": {
-    "api/**/*.py": {
-      "maxDuration": 300,
-      "excludeFiles": "{node_modules,dist,public,3d studio,ladies all work,qr-code-web-deploy,qr-code-scan-computer-visionj,tryon-archive,.git}/**"
-    },
-    "api/tryon/health.py": {
-      "maxDuration": 10,
-      "excludeFiles": "{node_modules,dist,public,3d studio,ladies all work,qr-code-web-deploy,qr-code-scan-computer-visionj,tryon-archive,.git}/**"
-    }
-  }
+  ]
 }
