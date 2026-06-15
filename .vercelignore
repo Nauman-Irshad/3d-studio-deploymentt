@@ -1,0 +1,17 @@
+# Heavy folders not needed for static Vite build (assets are in dist/ after build)
+3d studio
+ladies all work
+tryon-archive
+qr-code-web-deploy
+qr-code-scan-computer-visionj
+FYP_APP_DEPLOYMENT
+_backend_push
+_gh_push
+
+# Local / dev only
+.venv
+venv
+__pycache__
+*.pyc
+.env
+.env.local

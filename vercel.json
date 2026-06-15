@@ -23,11 +23,13 @@
     { "source": "/((?!api/|assets/|garments/|garment-3d/|phone-capture/|ladies-garments/|ladies-catalog/|ladies_try_on/).*)", "destination": "/index.html" }
   ],
   "functions": {
-    "api/tryon.py": {
-      "maxDuration": 300
+    "api/**/*.py": {
+      "maxDuration": 300,
+      "excludeFiles": "{node_modules,dist,public,3d studio,ladies all work,qr-code-web-deploy,qr-code-scan-computer-visionj,tryon-archive,.git}/**"
     },
     "api/tryon/health.py": {
-      "maxDuration": 10
+      "maxDuration": 10,
+      "excludeFiles": "{node_modules,dist,public,3d studio,ladies all work,qr-code-web-deploy,qr-code-scan-computer-visionj,tryon-archive,.git}/**"
     }
   }
 }

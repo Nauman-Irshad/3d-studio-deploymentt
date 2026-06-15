@@ -1,0 +1,23 @@
+# Optional: host try-on API on Render if Vercel Python bundle is still too large.
+# Vercel frontend: set VITE_TRYON_BACKEND=https://YOUR-SERVICE.onrender.com
+# (HF_TOKEN stays on Render only — never VITE_)
+
+services:
+  - type: web
+    name: smartfitao-tryon-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn replicate_tryon_server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: TRYON_PROVIDER
+        value: idm-vton
+      - key: TRYON_FAST
+        value: "1"
+      - key: TRYON_MOCK
+        value: "0"
+      - key: HF_TOKEN
+        sync: false

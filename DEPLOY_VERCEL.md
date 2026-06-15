@@ -64,8 +64,20 @@ git push -u origin main
 
 - Browser calls `POST /api/tryon` on **your Vercel domain** (same origin).
 - Vercel runs `api/tryon.py` as a **serverless function**.
-- `HF_TOKEN` is read from `process.env` / `os.environ` **only inside that function**.
+- `HF_TOKEN` is read from `os.environ` **only inside that function**.
 - Users never see the token in Network tab or page source.
+
+### If deploy fails: “bundle size exceeds 500 MB”
+
+Vercel Python functions bundle **your whole repo** by default (including `public/garment-3d`, images, WASM). That can be **2 GB+**.
+
+This repo fixes that with `excludeFiles` in `vercel.json` so only `api/*.py` + `hf_tryon.py` + pip packages are included.
+
+If it **still** fails after `excludeFiles`, host the API on **Render** (free) and point the frontend at it:
+
+1. Deploy `render.yaml` on [Render](https://render.com) → add `HF_TOKEN` there.
+2. On Vercel → Environment Variables → `VITE_TRYON_BACKEND` = `https://YOUR-SERVICE.onrender.com`
+3. Redeploy Vercel (token stays on Render, not in the browser).
 
 Local dev: `npm run api` (Python on :8765) + `npm run dev` (Vite proxies `/api`).
 

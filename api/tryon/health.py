@@ -1,23 +1,20 @@
-"""Vercel serverless: GET /api/tryon/health"""
+"""Vercel: GET /api/tryon/health — lightweight (no gradio import)."""
 
 from __future__ import annotations
 
 import json
 import os
-import sys
 from http.server import BaseHTTPRequestHandler
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-
-from hf_tryon import _denoise_steps, _is_fast_mode, hf_token  # noqa: E402
 
 
 def _health_payload() -> dict:
     mock = (os.environ.get("TRYON_MOCK") or "").strip().lower() in ("1", "true", "yes", "on")
     provider = (os.environ.get("TRYON_PROVIDER") or "idm-vton").strip()
-    has_token = bool(hf_token())
-    fast = _is_fast_mode()
+    has_token = bool((os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_TOKEN") or "").strip())
+    fast = (os.environ.get("TRYON_FAST") or "").strip().lower() in ("1", "true", "yes", "on")
     eta = 0 if mock else (30 if fast else 90)
+    steps_raw = (os.environ.get("TRYON_DENOISE_STEPS") or "").strip()
+    steps = max(20, int(steps_raw)) if steps_raw.isdigit() else (20 if fast else 30)
     return {
         "status": "ok",
         "provider": "mock" if mock else provider,
@@ -27,7 +24,7 @@ def _health_payload() -> dict:
         "tryon_fast": fast,
         "eta_seconds": eta,
         "eta_minutes": "0" if mock else (f"~{eta} sec" if fast else "~1–2 min"),
-        "denoise_steps": _denoise_steps(),
+        "denoise_steps": steps,
     }
 
 
