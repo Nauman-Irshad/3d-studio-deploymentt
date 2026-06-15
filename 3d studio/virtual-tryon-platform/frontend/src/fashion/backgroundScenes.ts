@@ -95,12 +95,12 @@ export const BACKGROUND_SCENES: BackgroundScene[] = BACKGROUND_SCENES_ROOT.map((
   publicPath: publicUrl(s.publicPath),
 }));
 
-export const DEFAULT_BACKGROUND_PATH = "";
-
-/** Smallest EXR — use when user first picks a backdrop (optional). */
+/** Smallest EXR — default canvas backdrop on load. */
 export const PHOTO_STUDIO_BACKGROUND_PATH = BACKGROUND_SCENES.find(
   (s) => s.id === "photo_studio",
 )!.publicPath;
+
+export const DEFAULT_BACKGROUND_PATH = PHOTO_STUDIO_BACKGROUND_PATH;
 
 export const ALL_BACKGROUND_PATHS = BACKGROUND_SCENES.map((b) => b.publicPath);
 

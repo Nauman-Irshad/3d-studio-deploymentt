@@ -2,7 +2,8 @@ import { Environment, PerspectiveCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import * as THREE from "three";
-import { backdropAbsoluteUrl } from "./backdropPreload";
+import { sceneForBackgroundPath } from "./backgroundScenes";
+import { FastBackdropEnvironment } from "./FastBackdropEnvironment";
 import { GarmentModel } from "./GarmentModel";
 import { OrbitRig } from "./OrbitRig";
 import { useCustomizerStore } from "./store";
@@ -30,21 +31,35 @@ function GarmentLoadingPlaceholder() {
   );
 }
 
+/**
+ * Instant HDR preset (always works online) + optional EXR upgrade when the file loads.
+ * `key` forces a fresh Environment on each backdrop click so the canvas actually changes.
+ */
 function BackdropEnvironment({ exrPath }: { exrPath: string }) {
   if (!exrPath) return null;
+  const scene = sceneForBackgroundPath(exrPath);
+  const preset = scene?.environmentPreset ?? "studio";
+
   return (
-    <Environment
-      files={backdropAbsoluteUrl(exrPath)}
-      background
-      backgroundBlurriness={0}
-      backgroundIntensity={1}
-      environmentIntensity={0.85}
-    />
+    <>
+      <Environment
+        key={`preset-${preset}-${exrPath}`}
+        preset={preset}
+        background
+        backgroundBlurriness={0}
+        backgroundIntensity={1}
+        environmentIntensity={0.85}
+      />
+      <Suspense fallback={null}>
+        <FastBackdropEnvironment key={`exr-${exrPath}`} exrPath={exrPath} />
+      </Suspense>
+    </>
   );
 }
 
 export function GarmentViewer() {
   const activeBackgroundPath = useCustomizerStore((s) => s.activeBackgroundPath);
+  const hasBackdrop = Boolean(activeBackgroundPath);
 
   return (
     <Canvas
@@ -59,7 +74,9 @@ export function GarmentViewer() {
       dpr={[1, 1.5]}
       onCreated={({ gl, scene }) => {
         THREE.ColorManagement.enabled = true;
-        scene.background = new THREE.Color(VIEWPORT_BG);
+        if (!hasBackdrop) {
+          scene.background = new THREE.Color(VIEWPORT_BG);
+        }
         gl.domElement.addEventListener(
           "webglcontextlost",
           (e: Event) => e.preventDefault(),
@@ -67,21 +84,17 @@ export function GarmentViewer() {
         );
       }}
     >
-      <color attach="background" args={[VIEWPORT_BG]} />
+      {!hasBackdrop ? <color attach="background" args={[VIEWPORT_BG]} /> : null}
       <PerspectiveCamera makeDefault position={[0, 0.58, 2.08]} fov={40} />
       <OrbitRig />
       <StudioLights />
 
-      {/* Garment first — never blocked by heavy EXR backdrop */}
       <Suspense fallback={<GarmentLoadingPlaceholder />}>
         <GarmentModel />
       </Suspense>
 
-      {/* Backdrop only when user picks one in the header (EXR files are large) */}
-      {activeBackgroundPath ? (
-        <Suspense fallback={null}>
-          <BackdropEnvironment exrPath={activeBackgroundPath} />
-        </Suspense>
+      {hasBackdrop ? (
+        <BackdropEnvironment exrPath={activeBackgroundPath} />
       ) : null}
     </Canvas>
   );

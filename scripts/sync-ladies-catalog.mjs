@@ -41,6 +41,16 @@ function readExistingManifest() {
 }
 
 function syncCatalog() {
+  if (process.env.VERCEL === "1") {
+    const existing = readExistingManifest();
+    if (existing) {
+      console.log(
+        "[sync-ladies-catalog] Vercel: skip sync — using committed public/ladies-catalog",
+      );
+      return;
+    }
+  }
+
   const existing = readExistingManifest();
 
   if (!fs.existsSync(sourceRoot)) {
@@ -94,6 +104,12 @@ function syncCatalog() {
   }
 
   categories.sort((a, b) => a.label.localeCompare(b.label));
+
+  if (categories.length === 0 && existing) {
+    console.log("[sync-ladies-catalog] Scan produced no categories — keeping existing manifest");
+    return;
+  }
+
   fs.writeFileSync(
     path.join(destRoot, "manifest.json"),
     JSON.stringify({ categories }, null, 2),

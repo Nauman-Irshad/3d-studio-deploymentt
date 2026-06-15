@@ -1,5 +1,6 @@
 import { isExcludedLadiesCategory } from "../constants/catalogFilters";
 import { formatLadiesCatalogProductName } from "../utils/productDisplayNames";
+import bakedLadiesManifest from "../../public/ladies-catalog/manifest.json";
 
 export type LadiesCategory = {
   id: string;
@@ -44,6 +45,19 @@ export function catalogItemKey(categoryId: string, name: string): string {
   return `${categoryId}/${name}`;
 }
 
+function normalizeLadiesCatalog(data: LadiesCatalog): LadiesCatalog {
+  const categories = (data.categories ?? [])
+    .map((c) => ({
+      id: c.id,
+      label: c.label || formatCategoryLabel(c.id),
+      names: [...(c.names ?? [])].sort(),
+      displayNames: c.displayNames ?? undefined,
+    }))
+    .filter((c) => c.names.length > 0 && !isExcludedLadiesCategory(c.id))
+    .sort((a, b) => a.label.localeCompare(b.label));
+  return { categories };
+}
+
 export async function fetchLadiesCatalog(): Promise<LadiesCatalog> {
   const urls = import.meta.env.PROD
     ? [`${embedBase}ladies-catalog/manifest.json`]
@@ -55,20 +69,16 @@ export async function fetchLadiesCatalog(): Promise<LadiesCatalog> {
       const res = await fetch(url);
       if (!res.ok) continue;
       const data = (await res.json()) as LadiesCatalog;
-      const categories = (data.categories ?? [])
-        .map((c) => ({
-          id: c.id,
-          label: c.label || formatCategoryLabel(c.id),
-          names: [...(c.names ?? [])].sort(),
-          displayNames: c.displayNames ?? undefined,
-        }))
-        .filter((c) => c.names.length > 0 && !isExcludedLadiesCategory(c.id))
-        .sort((a, b) => a.label.localeCompare(b.label));
-      if (categories.length) return { categories };
+      const normalized = normalizeLadiesCatalog(data);
+      if (normalized.categories.length) return normalized;
     } catch (e) {
       lastError = e instanceof Error ? e : new Error(String(e));
     }
   }
+
+  const baked = normalizeLadiesCatalog(bakedLadiesManifest as unknown as LadiesCatalog);
+  if (baked.categories.length) return baked;
+
   throw lastError ?? new Error("Could not load ladies collection.");
 }
 
