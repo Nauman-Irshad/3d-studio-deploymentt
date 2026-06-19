@@ -22,6 +22,6 @@
     { "source": "/ladies_try_on/", "destination": "/ladies_try_on/index.html" },
     { "source": "/studio", "destination": "/studio/index.html" },
     { "source": "/studio/", "destination": "/studio/index.html" },
-    { "source": "/((?!api/|assets/|garments/|garment-3d/|phone-capture/|ladies-garments/|ladies-catalog/|ladies_try_on/).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|assets/|garments/|garment-3d/|phone-capture/|ladies-garments/|ladies-catalog/|ladies-resource/|ladies_try_on/).*)", "destination": "/index.html" }
   ]
 }

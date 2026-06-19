@@ -15,6 +15,9 @@ const sourceRoot = (
 ).trim();
 const destRoot = path.join(root, "public", "ladies-catalog");
 const EXCLUDED_LADIES = new Set(["kids", "kid", "children", "child"]);
+/** Only this folder is synced into the ladies try-on catalog. */
+const LADIES_TRYON_FOLDER = "texture try on";
+const NON_TRYON_FOLDERS = new Set(["resource"]);
 
 function isExcludedLadiesFolder(name) {
   const norm = name.trim().toLowerCase().replace(/[-_]/g, " ");
@@ -75,6 +78,8 @@ function syncCatalog() {
   for (const entry of fs.readdirSync(sourceRoot, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue;
     if (isExcludedLadiesFolder(entry.name)) continue;
+    if (NON_TRYON_FOLDERS.has(entry.name.trim().toLowerCase())) continue;
+    if (entry.name !== LADIES_TRYON_FOLDER) continue;
     const srcDir = path.join(sourceRoot, entry.name);
     const destDir = path.join(destRoot, entry.name);
     fs.mkdirSync(destDir, { recursive: true });
@@ -104,6 +109,15 @@ function syncCatalog() {
   }
 
   categories.sort((a, b) => a.label.localeCompare(b.label));
+
+  // Remove stale category folders (e.g. user image ladies) from public output.
+  const activeIds = new Set(categories.map((c) => c.id));
+  for (const entry of fs.readdirSync(destRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    if (!activeIds.has(entry.name)) {
+      fs.rmSync(path.join(destRoot, entry.name), { recursive: true, force: true });
+    }
+  }
 
   if (categories.length === 0 && existing) {
     console.log("[sync-ladies-catalog] Scan produced no categories — keeping existing manifest");

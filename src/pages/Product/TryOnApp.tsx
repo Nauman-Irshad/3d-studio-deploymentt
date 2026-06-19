@@ -25,6 +25,7 @@ import { ShoppingCartProvider, useShoppingCart } from "../../store/ShoppingCartC
 import { cartProductFromTryOnSelection } from "../../store/cartProducts";
 import { ProductCartActions } from "../../components/common/ProductCartActions";
 import { TryOnCartHeaderButton } from "../../components/common/TryOnCartHeaderButton";
+import { ResourceHeaderButton } from "../../components/common/ResourceHeaderButton";
 import { archiveTryonSession } from "../../services/archiveTryon";
 import { useTryOnServerHealth } from "../../hooks/useTryOnServerHealth";
 import { PipelineProductStrip, type PipelineStripItem } from "../../components/common/PipelineProductStrip";
@@ -892,7 +893,12 @@ function TryOnAppInner({ config }: { config: TryOnConfig }) {
       {!embeddedInWebsite ? (
         <SiteHeader
           brandHref={isLadies ? "/ladies_try_on/" : "/"}
-          extraActions={<TryOnCartHeaderButton />}
+          extraActions={
+            <>
+              {isLadies ? <ResourceHeaderButton /> : null}
+              <TryOnCartHeaderButton />
+            </>
+          }
         />
       ) : null}
 

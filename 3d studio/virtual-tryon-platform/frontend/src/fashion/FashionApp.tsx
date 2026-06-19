@@ -3,6 +3,7 @@ import { useGLTF } from "@react-three/drei";
 import { CanvasStageHeader } from "./CanvasStageHeader";
 import { ControlPanel } from "./ControlPanel";
 import { GarmentViewer } from "./GarmentViewer";
+import { StudioModelLoadingOverlay } from "./StudioModelLoadingOverlay";
 import { DEFAULT_LANDING_MODEL_PATH, LANDING_STUDIO_PRODUCTS, landingModelPublicPath } from "../data/landingProducts";
 import { LEGACY_STUDIO_PRODUCTS, legacyModelPublicPath } from "../data/legacyProducts";
 import { absoluteModelUrl } from "../lib/absoluteModelUrl";
@@ -96,6 +97,7 @@ export function FashionApp() {
         <CanvasStageHeader />
         <div className="relative min-h-0 min-w-0 flex-1 blender-viewport-bg">
           <GarmentViewer />
+          <StudioModelLoadingOverlay />
         </div>
       </div>
     </div>

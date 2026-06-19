@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, type MouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGLTF } from "@react-three/drei";
 import { BASE_MODELS } from "./baseModels";
 import { LANDING_MODELS, LEGACY_MODELS, type LocalModelEntry } from "./localModels";
 import { MiniProductPreview } from "./MiniProductPreview";
+import { absoluteModelUrl } from "../lib/absoluteModelUrl";
 import { useMobileEmbedMode } from "./useMobileEmbedMode";
 import { useCustomizerStore } from "./store";
 
@@ -124,6 +126,13 @@ function ProductGrid({
       {models.map((m) => {
         const on = activeModelPath === m.publicPath;
         const select = () => setActiveModelPath(m.publicPath);
+        const preloadModel = () => {
+          try {
+            useGLTF.preload(absoluteModelUrl(m.publicPath));
+          } catch {
+            /* ignore preload errors */
+          }
+        };
         const handleAddToCart = (e: MouseEvent) => {
           e.stopPropagation();
           addToCart({
@@ -172,6 +181,8 @@ function ProductGrid({
                 tabIndex={0}
                 aria-pressed={on}
                 onClick={select}
+                onMouseEnter={preloadModel}
+                onFocus={preloadModel}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
