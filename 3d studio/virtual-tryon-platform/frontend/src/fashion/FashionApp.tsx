@@ -1,3 +1,4 @@
+import "./preloadGarments";
 import { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { CanvasStageHeader } from "./CanvasStageHeader";

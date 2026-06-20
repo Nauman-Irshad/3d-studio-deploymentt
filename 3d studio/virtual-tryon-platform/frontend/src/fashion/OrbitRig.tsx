@@ -1,10 +1,9 @@
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
-/** Orbit around mid-torso; camera slightly above target so the garment sits centered, not crowding the top */
+/** Orbit around mid-torso; auto-rotate so product spins on open. */
 const TARGET = new THREE.Vector3(0, 0.48, 0);
 
-/** Drag to orbit; scroll to zoom. */
 export function OrbitRig() {
   return (
     <OrbitControls
@@ -15,10 +14,10 @@ export function OrbitRig() {
       minDistance={1.18}
       maxDistance={3.5}
       target={[TARGET.x, TARGET.y, TARGET.z]}
-      dampingFactor={0.085}
+      dampingFactor={0.06}
       enableDamping
       autoRotate
-      autoRotateSpeed={1.1}
+      autoRotateSpeed={2.4}
       enableZoom
     />
   );

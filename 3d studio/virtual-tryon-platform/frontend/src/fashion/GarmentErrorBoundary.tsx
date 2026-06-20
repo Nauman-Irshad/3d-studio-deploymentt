@@ -23,12 +23,7 @@ export class GarmentErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.failed) {
-      return (
-        <mesh>
-          <boxGeometry args={[0.35, 0.5, 0.12]} />
-          <meshStandardMaterial color="#b45309" wireframe />
-        </mesh>
-      );
+      return null;
     }
     return this.props.children;
   }

@@ -21,16 +21,6 @@ function StudioLights() {
   );
 }
 
-/** Visible while GLB/GLTF/OBJ is loading — avoids an empty viewport. */
-function GarmentLoadingPlaceholder() {
-  return (
-    <mesh position={[0, 0.55, 0]}>
-      <boxGeometry args={[0.35, 0.55, 0.12]} />
-      <meshStandardMaterial color="#78716c" wireframe />
-    </mesh>
-  );
-}
-
 /**
  * Instant HDR preset (always works online) + optional EXR upgrade when the file loads.
  * `key` forces a fresh Environment on each backdrop click so the canvas actually changes.
@@ -89,7 +79,7 @@ export function GarmentViewer() {
       <OrbitRig />
       <StudioLights />
 
-      <Suspense fallback={<GarmentLoadingPlaceholder />}>
+      <Suspense fallback={null}>
         <GarmentModel />
       </Suspense>
 
