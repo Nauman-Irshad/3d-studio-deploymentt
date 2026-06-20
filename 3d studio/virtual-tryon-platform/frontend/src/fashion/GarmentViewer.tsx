@@ -40,6 +40,7 @@ function BackdropEnvironment({ exrPath }: { exrPath: string }) {
         backgroundIntensity={1}
         environmentIntensity={0.85}
       />
+      {/* HDRI EXR upgrades in background — preset shows instantly */}
       <Suspense fallback={null}>
         <FastBackdropEnvironment key={`exr-${exrPath}`} exrPath={exrPath} />
       </Suspense>
@@ -61,7 +62,7 @@ export function GarmentViewer() {
         powerPreference: "high-performance",
         outputColorSpace: THREE.SRGBColorSpace,
       }}
-      dpr={[1, 1.5]}
+      dpr={[1, 1.25]}
       onCreated={({ gl, scene }) => {
         THREE.ColorManagement.enabled = true;
         if (!hasBackdrop) {

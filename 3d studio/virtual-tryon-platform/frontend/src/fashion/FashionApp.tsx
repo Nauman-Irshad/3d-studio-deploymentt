@@ -4,7 +4,6 @@ import { useGLTF } from "@react-three/drei";
 import { CanvasStageHeader } from "./CanvasStageHeader";
 import { ControlPanel } from "./ControlPanel";
 import { GarmentViewer } from "./GarmentViewer";
-import { StudioModelLoadingOverlay } from "./StudioModelLoadingOverlay";
 import { DEFAULT_LANDING_MODEL_PATH, LANDING_STUDIO_PRODUCTS, landingModelPublicPath } from "../data/landingProducts";
 import { LEGACY_STUDIO_PRODUCTS, legacyModelPublicPath } from "../data/legacyProducts";
 import { absoluteModelUrl } from "../lib/absoluteModelUrl";
@@ -49,33 +48,16 @@ function useCartShellBridge() {
   }, []);
 }
 
-/** Preload default garment first; defer the rest so the studio opens faster. */
+/** Preload runs at module load via preloadGarments.ts — keep hook for iframe warm-up. */
 function usePreloadGarments() {
   useEffect(() => {
     useGLTF.preload(absoluteModelUrl(DEFAULT_LANDING_MODEL_PATH));
-
-    const deferRest = () => {
-      useGLTF.preload(absoluteModelUrl("/brand-kurta-logo.glb"));
-      for (const p of LANDING_STUDIO_PRODUCTS.slice(1)) {
-        useGLTF.preload(absoluteModelUrl(landingModelPublicPath(p.relativePath)));
-      }
-      for (const p of LEGACY_STUDIO_PRODUCTS) {
-        useGLTF.preload(absoluteModelUrl(legacyModelPublicPath(p.publicPath)));
-      }
-    };
-
-    const idleId =
-      typeof window.requestIdleCallback === "function"
-        ? window.requestIdleCallback(deferRest, { timeout: 4000 })
-        : window.setTimeout(deferRest, 2000);
-
-    return () => {
-      if (typeof idleId === "number") {
-        window.clearTimeout(idleId);
-      } else if (typeof window.cancelIdleCallback === "function") {
-        window.cancelIdleCallback(idleId);
-      }
-    };
+    for (const p of LANDING_STUDIO_PRODUCTS) {
+      useGLTF.preload(absoluteModelUrl(landingModelPublicPath(p.relativePath)));
+    }
+    for (const p of LEGACY_STUDIO_PRODUCTS) {
+      useGLTF.preload(absoluteModelUrl(legacyModelPublicPath(p.publicPath)));
+    }
   }, []);
 }
 
@@ -98,7 +80,6 @@ export function FashionApp() {
         <CanvasStageHeader />
         <div className="relative min-h-0 min-w-0 flex-1 blender-viewport-bg">
           <GarmentViewer />
-          <StudioModelLoadingOverlay />
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { BACKGROUND_SCENES } from "./backgroundScenes";
 import { preloadBackdrop } from "./backdropPreload";
 import { ShoppingCartDrawer } from "./ShoppingCartDrawer";
+import { StudioHeaderLoadingBar } from "./StudioHeaderLoadingBar";
 import { useCustomizerStore } from "./store";
 
 /**
@@ -37,6 +38,8 @@ export function CanvasStageHeader() {
           <span className="whitespace-nowrap">2D Try-On</span>
         </a>
       </div>
+
+      <StudioHeaderLoadingBar />
 
       {/* Start: all backdrop EXRs */}
       <div className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden sm:gap-2.5">

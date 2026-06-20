@@ -68,9 +68,9 @@ export function landingModelPublicPath(relativePath: string): string {
   return publicUrl(encodePublicPath(`/${relativePath.replace(/^\/+/, "")}`));
 }
 
-/** Smallest landing GLB — loads faster on first open. */
-export const DEFAULT_LANDING_MODEL_PATH = landingModelPublicPath(
-  LANDING_STUDIO_PRODUCTS[1].relativePath,
+/** Fast default garment (~10 MB logo kurta) — first paint under ~10s on typical links. */
+export const DEFAULT_LANDING_MODEL_PATH = publicUrl(
+  encodePublicPath("/brand-kurta-logo.glb"),
 );
 
 export const KURTA_STUDIO_PRODUCTS = LANDING_STUDIO_PRODUCTS.filter(

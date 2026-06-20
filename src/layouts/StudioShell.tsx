@@ -16,6 +16,14 @@ export function StudioShell() {
     apply();
     const mq = window.matchMedia("(max-width: 900px)");
     mq.addEventListener("change", apply);
+
+    const warm = document.createElement("link");
+    warm.rel = "prefetch";
+    warm.href = `${STUDIO_3D_APP_PATH}brand-kurta-logo.glb`;
+    warm.as = "fetch";
+    warm.crossOrigin = "anonymous";
+    document.head.appendChild(warm);
+
     return () => mq.removeEventListener("change", apply);
   }, []);
 

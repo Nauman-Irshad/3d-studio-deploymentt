@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { useGLTF } from "@react-three/drei";
+import { DEFAULT_BACKGROUND_PATH } from "./backgroundScenes";
 import { DEFAULT_LANDING_MODEL_PATH } from "../data/landingProducts";
 import { absoluteModelUrl } from "../lib/absoluteModelUrl";
 import { format3dStudioProductName } from "../utils/productDisplayNames";
@@ -94,7 +95,7 @@ export const useCustomizerStore = create<CustomizerState>((set) => ({
   garmentStyle: initialGarment,
   sleeveStyle: initialSleeve,
   activeModelPath: DEFAULT_LANDING_MODEL_PATH,
-  activeBackgroundPath: "",
+  activeBackgroundPath: DEFAULT_BACKGROUND_PATH,
   fabricObjectUrl: null,
   fabricFile: null,
   fabricTargetModelPath: null,

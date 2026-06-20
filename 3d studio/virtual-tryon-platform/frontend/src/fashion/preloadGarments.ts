@@ -1,15 +1,46 @@
 import { useGLTF } from "@react-three/drei";
-import { DEFAULT_LANDING_MODEL_PATH } from "../data/landingProducts";
+import {
+  DEFAULT_LANDING_MODEL_PATH,
+  LANDING_STUDIO_PRODUCTS,
+  landingModelPublicPath,
+} from "../data/landingProducts";
+import { LEGACY_STUDIO_PRODUCTS, legacyModelPublicPath } from "../data/legacyProducts";
 import { absoluteModelUrl } from "../lib/absoluteModelUrl";
+import { DEFAULT_BACKGROUND_PATH } from "./backgroundScenes";
+import { preloadBackdrop } from "./backdropPreload";
 
-/** Kick off default GLB fetch as soon as the studio bundle loads (before React mount). */
-export function preloadDefaultGarment(): void {
+const prefetched = new Set<string>();
+
+function prefetchUrl(url: string): void {
+  if (!url || prefetched.has(url) || typeof document === "undefined") return;
+  prefetched.add(url);
   try {
-    useGLTF.preload(absoluteModelUrl(DEFAULT_LANDING_MODEL_PATH));
-    useGLTF.preload(absoluteModelUrl("/brand-kurta-logo.glb"));
+    useGLTF.preload(url);
   } catch {
-    /* ignore — preload is best-effort */
+    /* ignore */
   }
+  const link = document.createElement("link");
+  link.rel = "prefetch";
+  link.as = "fetch";
+  link.href = url;
+  link.crossOrigin = "anonymous";
+  document.head.appendChild(link);
 }
 
-preloadDefaultGarment();
+/** Start every garment fetch immediately — before React mounts. */
+export function preloadAllGarments(): void {
+  prefetchUrl(absoluteModelUrl(DEFAULT_LANDING_MODEL_PATH));
+  prefetchUrl(absoluteModelUrl("/brand-kurta-logo.glb"));
+
+  for (const p of LANDING_STUDIO_PRODUCTS) {
+    prefetchUrl(absoluteModelUrl(landingModelPublicPath(p.relativePath)));
+  }
+  for (const p of LEGACY_STUDIO_PRODUCTS) {
+    prefetchUrl(absoluteModelUrl(legacyModelPublicPath(p.publicPath)));
+  }
+
+  // Default backdrop preset path — EXR deferred until user hovers header swatches.
+  preloadBackdrop(DEFAULT_BACKGROUND_PATH);
+}
+
+preloadAllGarments();
